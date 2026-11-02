@@ -1,0 +1,19 @@
+const fs = require('fs');
+
+fs.writeFileSync('sample.txt','hello fro the file');
+
+const data = fs.readFileSync('sample.txt','utf-8');
+console.log(data);
+
+const buffer = Buffer("hello world");
+
+console.log(buffer);
+
+console.log(buffer.toString());
+
+
+const readStram = fs.createReadStream('sample.txt','utf-8');
+
+readStram.on('data',(chunk)=>{
+    console.log(chunk);
+})
