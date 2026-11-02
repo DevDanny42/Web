@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Display Date</title>
+</head>
+
+<body>
+
+    <h2>Display Current Date</h2>
+
+    <label>Current Date:</label>
+    <input type="text" id="dateBox" readonly>
+
+    <br><br>
+
+    <button onclick="displayDate()">Display Date</button>
+
+    <script>
+
+        function displayDate() {
+
+            let today = new Date();
+
+            let date = today.toLocaleDateString();
+
+            document.getElementById("dateBox").value = date;
+        }
+
+    </script>
+
+</body>
+</html>
