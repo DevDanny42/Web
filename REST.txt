@@ -1,0 +1,56 @@
+File name: server.js
+const express = require('express');
+const app = express();
+
+app.use(express.json());
+
+let users = [
+  { id: 1, name: 'John', age: 20 },
+  { id: 2, name: 'Alice', age: 22 }
+];
+
+// GET - Get all users
+app.get('/users', (req, res) => {
+  res.json(users);
+});
+
+// POST - Add a new user
+app.post('/users', (req, res) => {
+  const newUser = {
+    id: users.length + 1,
+    ...req.body
+  };
+  users.push(newUser);
+  res.status(201).json(newUser);
+});
+
+// PUT - Update a user
+app.put('/users/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+  const user = users.find(u => u.id === id);
+
+  if (user) {
+    user.name = req.body.name;
+    user.age = req.body.age;
+    res.json(user);
+  } else {
+    res.status(404).json({ message: 'User not found' });
+  }
+});
+
+// DELETE - Delete a user
+app.delete('/users/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+  users = users.filter(u => u.id !== id);
+  res.json({ message: 'User deleted' });
+});
+
+app.listen(3000, () => {
+  console.log('Server running at http://localhost:3000');
+});
+
+Installation and execution commands:
+
+npm init -y
+npm install express
+node server.js
