@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <title>Sum of Numbers</title>
+</head>
+<body>
+   <h2>Sum of Two Numbers</h2>
+   <button onclick="calculateSum()">
+       Calculate Sum
+   </button>
+   <script>
+       function calculateSum() {
+           let num1 = Number(
+               prompt("Enter the first number:")
+           ) ;
+           if (isNaN(num1)) {
+               alert("Please enter a valid number.");
+               return;
+           }
+           let choice = confirm(
+               "Do you want to add another number?"
+           );
+           if (choice) {
+               let num2 = Number(
+                   prompt("Enter the second number:")
+               );
+               if (isNaN(num2)) {
+                   alert("Please enter a valid number.");
+                   return;
+               }
+               let sum = num1 + num2;
+               alert("Sum = " + sum);
+           } else {
+               alert("Sum = " + num1);
+           }
+       }
+   </script>
+</body>
+</html>
