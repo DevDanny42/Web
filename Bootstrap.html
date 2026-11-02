@@ -1,0 +1,255 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Registration Form</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #f1f4f9;
+        }
+
+        .form-container {
+            max-width: 550px;
+            margin: 50px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .error {
+            color: red;
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="form-container">
+
+        <h2 class="text-center mb-4">Registration Form</h2>
+
+        <form id="registrationForm" onsubmit="validateForm(event)" novalidate>
+
+            <!-- Name -->
+            <div class="mb-3">
+                <label for="name" class="form-label">Full Name</label>
+                <input type="text" class="form-control"
+                       id="name" placeholder="Enter your full name">
+                <small class="error" id="nameError"></small>
+            </div>
+
+            <!-- Email -->
+            <div class="mb-3">
+                <label for="email" class="form-label">Email Address</label>
+                <input type="email" class="form-control"
+                       id="email" placeholder="Enter your email">
+                <small class="error" id="emailError"></small>
+            </div>
+
+            <!-- Phone -->
+            <div class="mb-3">
+                <label for="phone" class="form-label">Phone Number</label>
+                <input type="tel" class="form-control"
+                       id="phone" placeholder="Enter 10-digit phone number">
+                <small class="error" id="phoneError"></small>
+            </div>
+
+            <!-- Password -->
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control"
+                       id="password" placeholder="Enter password">
+                <small class="error" id="passwordError"></small>
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="mb-3">
+                <label for="confirmPassword" class="form-label">
+                    Confirm Password
+                </label>
+                <input type="password" class="form-control"
+                       id="confirmPassword" placeholder="Confirm password">
+                <small class="error" id="confirmPasswordError"></small>
+            </div>
+
+            <!-- Gender -->
+            <div class="mb-3">
+                <label class="form-label">Gender</label>
+
+                <select class="form-select" id="gender">
+                    <option value="">Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+
+                <small class="error" id="genderError"></small>
+            </div>
+
+            <!-- Date of Birth -->
+            <div class="mb-3">
+                <label for="dob" class="form-label">Date of Birth</label>
+                <input type="date" class="form-control" id="dob">
+                <small class="error" id="dobError"></small>
+            </div>
+
+            <!-- Terms -->
+            <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="terms">
+                <label class="form-check-label" for="terms">
+                    I agree to the terms and conditions
+                </label>
+                <br>
+                <small class="error" id="termsError"></small>
+            </div>
+
+            <!-- Buttons -->
+            <div class="d-flex gap-2">
+
+                <button type="submit" class="btn btn-primary w-100">
+                    Register
+                </button>
+
+                <button type="reset" class="btn btn-secondary w-100">
+                    Reset
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<script>
+
+    function validateForm(event) {
+
+        event.preventDefault();
+
+        // Get input values
+        let name = document.getElementById("name").value.trim();
+        let email = document.getElementById("email").value.trim();
+        let phone = document.getElementById("phone").value.trim();
+        let password = document.getElementById("password").value;
+        let confirmPassword = document.getElementById("confirmPassword").value;
+        let gender = document.getElementById("gender").value;
+        let dob = document.getElementById("dob").value;
+        let terms = document.getElementById("terms").checked;
+
+        // Clear previous errors
+        document.querySelectorAll(".error").forEach(error => {
+            error.innerHTML = "";
+        });
+
+        let isValid = true;
+
+        // Name validation
+        if (name.length < 3) {
+            document.getElementById("nameError").innerHTML =
+                "Name must contain at least 3 characters";
+            isValid = false;
+        }
+
+        // Email validation
+        let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!emailPattern.test(email)) {
+            document.getElementById("emailError").innerHTML =
+                "Please enter a valid email address";
+            isValid = false;
+        }
+
+        // Phone validation
+        let phonePattern = /^[6-9]\d{9}$/;
+
+        if (!phonePattern.test(phone)) {
+            document.getElementById("phoneError").innerHTML =
+                "Enter a valid 10-digit Indian mobile number";
+            isValid = false;
+        }
+
+        // Password validation
+        let passwordPattern =
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+        if (!passwordPattern.test(password)) {
+            document.getElementById("passwordError").innerHTML =
+                "Password must have 8 characters, uppercase, lowercase, number and special character";
+            isValid = false;
+        }
+
+        // Confirm password
+        if (password !== confirmPassword || confirmPassword === "") {
+            document.getElementById("confirmPasswordError").innerHTML =
+                "Passwords do not match";
+            isValid = false;
+        }
+
+        // Gender validation
+        if (gender === "") {
+            document.getElementById("genderError").innerHTML =
+                "Please select your gender";
+            isValid = false;
+        }
+
+        // Date validation
+        if (dob === "") {
+            document.getElementById("dobError").innerHTML =
+                "Please select your date of birth";
+            isValid = false;
+        } else if (new Date(dob) > new Date()) {
+            document.getElementById("dobError").innerHTML =
+                "Date of birth cannot be in the future";
+            isValid = false;
+        }
+
+        // Terms validation
+        if (!terms) {
+            document.getElementById("termsError").innerHTML =
+                "Please accept the terms and conditions";
+            isValid = false;
+        }
+
+        // Final result
+        if (isValid) {
+            alert("Registration successful!");
+
+            console.log({
+                name,
+                email,
+                phone,
+                gender,
+                dob
+            });
+
+            document.getElementById("registrationForm").reset();
+        }
+
+    }
+
+    // Clear form errors when reset button is clicked
+    document.getElementById("registrationForm")
+        .addEventListener("reset", function() {
+            document.querySelectorAll(".error").forEach(error => {
+                error.innerHTML = "";
+            });
+        });
+
+</script>
+
+</body>
+</html>
